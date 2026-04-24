@@ -398,7 +398,7 @@ function Field({ label, value, tone }: { label: string; value: string; tone?: "o
   );
 }
 
-function RightPanel({ state }: { state: SessionState }) {
+function RightPanel({ state, dispatch }: { state: SessionState; dispatch: React.Dispatch<any> }) {
   const preset = getPreset(state.presetId);
   const counts = categoryCounts(state, preset);
   const total = counts.reduce((s, [, n]) => s + n, 0);
@@ -463,27 +463,7 @@ function RightPanel({ state }: { state: SessionState }) {
       </Section>
 
       <Section title="Notes">
-        <textarea
-          value={state.notes}
-          onChange={(e) => ({ /* keep typing local */ })}
-          placeholder="Scratchpad — autosaved"
-          rows={4}
-          className="w-full resize-none rounded-md border border-input bg-background p-2 text-sm"
-          onInput={(e) => {
-            // controlled via dispatch in onBlur to avoid undo-spam per keystroke
-          }}
-          onBlur={(e) => {
-            // commit notes
-            const target = e.target as HTMLTextAreaElement;
-            if (target.value !== state.notes) {
-              const ev = new CustomEvent("eal-notes-commit", { detail: target.value });
-              window.dispatchEvent(ev);
-            }
-          }}
-          defaultValue={state.notes}
-          key={state.presetId}
-        />
-        <NotesCommitter />
+        <NotesEditor value={state.notes} onCommit={(v) => dispatch({ type: "SET_NOTES", notes: v })} presetId={state.presetId} />
       </Section>
 
       <Section title="Recommended next">
@@ -515,16 +495,20 @@ function Row({ k, v }: { k: string; v: string }) {
   );
 }
 
-// Tiny bridge so the textarea commits via dispatch only on blur (avoids per-keystroke undo entries)
-function NotesCommitter() {
-  const { dispatch } = useSession();
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const v = (e as CustomEvent<string>).detail;
-      dispatch({ type: "SET_NOTES", notes: v });
-    };
-    window.addEventListener("eal-notes-commit", handler);
-    return () => window.removeEventListener("eal-notes-commit", handler);
-  }, [dispatch]);
-  return null;
+// Notes editor with local state, commits to session on blur to avoid undo-spam
+function NotesEditor({ value, onCommit, presetId }: { value: string; onCommit: (v: string) => void; presetId: string }) {
+  const [local, setLocal] = useState(value);
+  useEffect(() => setLocal(value), [presetId, value]);
+  return (
+    <textarea
+      value={local}
+      onChange={(e) => setLocal(e.target.value)}
+      onBlur={() => {
+        if (local !== value) onCommit(local);
+      }}
+      placeholder="Scratchpad — autosaved"
+      rows={4}
+      className="w-full resize-none rounded-md border border-input bg-background p-2 text-sm"
+    />
+  );
 }
