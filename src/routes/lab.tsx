@@ -88,7 +88,7 @@ function LabPage() {
       <main className="mx-auto grid max-w-7xl gap-4 px-4 py-4 lg:grid-cols-[280px_1fr_320px] lg:gap-6 lg:py-6">
         <LeftPanel state={state} dispatch={dispatch} undo={undo} redo={redo} canUndo={canUndo} canRedo={canRedo} />
         <CenterPanel state={state} dispatch={dispatch} />
-        <RightPanel state={state} />
+        <RightPanel state={state} dispatch={dispatch} />
       </main>
     </div>
   );
