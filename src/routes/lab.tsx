@@ -357,7 +357,6 @@ function CenterPanel({ state, dispatch }: { state: SessionState; dispatch: React
             <Plus className="h-3.5 w-3.5" /> Add
           </button>
         </div>
-        {preset.suggestedTags?.length}
       </Section>
 
       <Section title="Quick actions">
