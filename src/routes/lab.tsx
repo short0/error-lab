@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
-import { z } from "zod";
 import { useEffect, useMemo, useRef, useState } from "react";
+
+type LabSearch = { preset?: string };
 import {
   ChevronLeft,
   ChevronRight,
@@ -20,12 +20,10 @@ import {
   type SessionState,
 } from "@/lib/session-store";
 
-const search = z.object({
-  preset: fallback(z.string().optional(), undefined),
-});
-
 export const Route = createFileRoute("/lab")({
-  validateSearch: zodValidator(search),
+  validateSearch: (s: Record<string, unknown>): LabSearch => ({
+    preset: typeof s.preset === "string" ? s.preset : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Lab — Error Analysis Lab" },
