@@ -29,14 +29,18 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Error Analysis Lab" },
+      { name: "description", content: "Error Lab is a responsive web app for hands-on model error analysis and learning." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Error Analysis Lab" },
+      { property: "og:description", content: "Error Lab is a responsive web app for hands-on model error analysis and learning." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Error Analysis Lab" },
+      { name: "twitter:description", content: "Error Lab is a responsive web app for hands-on model error analysis and learning." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/db2f898e-96c2-45e5-af85-c19e3a9eb7a8/id-preview-6b4802ae--800bfae1-232d-453e-a57f-4d4a7b641ce5.lovable.app-1777014434997.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/db2f898e-96c2-45e5-af85-c19e3a9eb7a8/id-preview-6b4802ae--800bfae1-232d-453e-a57f-4d4a7b641ce5.lovable.app-1777014434997.png" },
     ],
     links: [
       {
